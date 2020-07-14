@@ -15,25 +15,20 @@ export class UsersController {
   }
 
   @Post()
-  create(@Body() user: CreateUsersDto): object {
-    this.userService.create(user);
-    return {
-      status: 200,
-      message: 'Data has created !',
-    };
+  create(@Body() user: CreateUsersDto): any {
+    return this.userService.create(user);
   }
 
   @Put(':id')
-  update(@Body() user: ModifyUsersDto, @Param() params): object {
-    this.userService.updateData(user, params.id);
-    return {
-      status: 200,
-      message: 'Profile has updated !',
-    };
+  update(
+    @Body() user: ModifyUsersDto,
+    @Param('id') params,
+  ): Promise<UsersEntity> {
+    return this.userService.updateData(user, params.id);
   }
 
   @Put(':id/password')
-  password(@Body() user: modifyPasswordDto, @Param() params): object {
+  password(@Body() user: modifyPasswordDto, @Param() params): any {
     this.userService.updatePassword(user, params.id);
     return {
       status: 200,
@@ -42,7 +37,7 @@ export class UsersController {
   }
 
   @Put(':id/status')
-  changeStatus(id): object {
+  changeStatus(id): any {
     this.userService.changeState(id);
     return {
       status: 200,

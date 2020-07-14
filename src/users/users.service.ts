@@ -6,6 +6,7 @@ import { CreateUsersDto } from './dto/createUsers';
 import { ModifyUsersDto } from './dto/modifyUsers';
 import { modifyPasswordDto } from './dto/modifyPassword';
 import * as bcrypt from 'bcrypt';
+import { responseDto } from 'src/dto/responseDto';
 
 @Injectable()
 export class UsersService {
@@ -15,25 +16,14 @@ export class UsersService {
   ) {}
 
   // Query Validation
-  async checkDuplicate(fullname: string): Promise<boolean> {
-    try {
-      let user = await this.userRepository.findOne({
-        where: { name: fullname },
-      });
-      console.log(user);
-      if (user) {
-        console.log('sama');
-        throw new HttpException(
-          {
-            status: HttpStatus.BAD_REQUEST,
-            error: 'Name is already registered !',
-          },
-          HttpStatus.BAD_REQUEST,
-        );
-      } else {
-        return true;
-      }
-    } catch (error) {}
+  async checkDuplicate(fullname: string, mail: string): Promise<any> {
+    const user = await this.userRepository.findOne({
+      where: { name: fullname, email: mail },
+    });
+    if (user) {
+      return Promise.reject('exists');
+    }
+    return Promise.resolve('true');
   }
 
   // Main Query
@@ -42,25 +32,40 @@ export class UsersService {
     return this.userRepository.find();
   }
 
-  create(userData: CreateUsersDto): Promise<UsersEntity> {
-    this.checkDuplicate(userData.name);
-    let user = new UsersEntity();
-    user.name = userData.name;
-    user.email = userData.email;
-    user.password = userData.password;
-    user.status = true;
-    return this.userRepository.save(user);
+  async create(userData: CreateUsersDto): Promise<responseDto> {
+    try {
+      await this.checkDuplicate(userData.name, userData.email);
+      const user = new UsersEntity();
+      user.name = userData.name;
+      user.email = userData.email;
+      user.password = userData.password;
+      user.status = true;
+      await this.userRepository.save(user);
+
+      return {
+        status: HttpStatus.OK,
+        message: 'Data is created !',
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Your user data is already taken!',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   async updateData(userData: ModifyUsersDto, id: number): Promise<UsersEntity> {
-    let user = await this.userRepository.findOne(id);
+    const user = await this.userRepository.findOne(id);
     user.name = userData.name;
     user.email = userData.email;
     return await this.userRepository.save(user);
   }
 
   async changeState(id: number): Promise<UsersEntity> {
-    let user = await this.userRepository.findOne(id);
+    const user = await this.userRepository.findOne(id);
     user.status = !user.status;
     return await this.userRepository.save(user);
   }
@@ -69,7 +74,7 @@ export class UsersService {
     userData: modifyPasswordDto,
     id: number,
   ): Promise<UsersEntity> {
-    let user = await this.userRepository.findOne(id);
+    const user = await this.userRepository.findOne(id);
     if (userData.newPassword == userData.confirmPassword) {
       user.password = await bcrypt.hash(userData.confirmPassword, 10);
       return await this.userRepository.save(user);
