@@ -4,23 +4,28 @@ import {
   Column,
   Timestamp,
   BeforeInsert,
+  AfterUpdate,
+  BeforeUpdate,
 } from 'typeorm';
 
 import * as bcrypt from 'bcrypt';
 
 @Entity('users')
-export class AuthEntity {
+export class UsersEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
-  @Column()
+  @Column({ select: false })
   password: string;
+
+  @Column({ type: 'boolean' })
+  status: boolean;
 
   @Column({ type: 'timestamp' })
   created_at: Timestamp;
@@ -29,7 +34,7 @@ export class AuthEntity {
   updated_at: Timestamp;
 
   @BeforeInsert()
-  async updatePasswords(): Promise<any> {
+  async insertPassword(): Promise<any> {
     this.password = await bcrypt.hash(this.password, 10);
   }
 }
