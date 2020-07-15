@@ -7,24 +7,17 @@ import { ModifyUsersDto } from './dto/modifyUsers';
 import { modifyPasswordDto } from './dto/modifyPassword';
 import * as bcrypt from 'bcrypt';
 import { responseDto } from 'src/dto/responseDto';
+import { ValidationService } from './validation/validation.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UsersEntity)
     private userRepository: Repository<UsersEntity>,
+    private validationService: ValidationService,
   ) {}
 
   // Query Validation
-  async checkDuplicate(fullname: string, mail: string): Promise<any> {
-    const user = await this.userRepository.findOne({
-      where: { name: fullname, email: mail },
-    });
-    if (user) {
-      return Promise.reject('exists');
-    }
-    return Promise.resolve('true');
-  }
 
   // Main Query
 
@@ -34,7 +27,7 @@ export class UsersService {
 
   async create(userData: CreateUsersDto): Promise<responseDto> {
     try {
-      await this.checkDuplicate(userData.name, userData.email);
+      await this.validationService.duplicate(userData.name, userData.email);
       const user = new UsersEntity();
       user.name = userData.name;
       user.email = userData.email;
@@ -50,7 +43,7 @@ export class UsersService {
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
-          error: 'Your user data is already taken!',
+          error,
         },
         HttpStatus.BAD_REQUEST,
       );
@@ -58,10 +51,21 @@ export class UsersService {
   }
 
   async updateData(userData: ModifyUsersDto, id: number): Promise<UsersEntity> {
-    const user = await this.userRepository.findOne(id);
-    user.name = userData.name;
-    user.email = userData.email;
-    return await this.userRepository.save(user);
+    try {
+      await this.validationService.duplicate(userData.name, userData.email);
+      const user = await this.userRepository.findOne(id);
+      user.name = userData.name;
+      user.email = userData.email;
+      return await this.userRepository.save(user);
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   async changeState(id: number): Promise<UsersEntity> {

@@ -7,10 +7,11 @@ import { AuthService } from './auth/auth.service';
 import { UsersService } from './users.service';
 import { AuthController } from './auth/auth.controller';
 import { UsersController } from './users.controller';
+import { ValidationService } from './validation/validation.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UsersEntity])],
-  providers: [AuthService, UsersService],
+  providers: [AuthService, UsersService, ValidationService],
   controllers: [AuthController, UsersController],
 })
 export class UsersModule {}
