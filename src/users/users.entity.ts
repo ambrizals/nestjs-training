@@ -4,8 +4,6 @@ import {
   Column,
   Timestamp,
   BeforeInsert,
-  AfterUpdate,
-  BeforeUpdate,
 } from 'typeorm';
 
 import * as bcrypt from 'bcrypt';
@@ -21,7 +19,7 @@ export class UsersEntity {
   @Column({ unique: true })
   email: string;
 
-  @Column({ select: false })
+  @Column()
   password: string;
 
   @Column({ type: 'boolean' })

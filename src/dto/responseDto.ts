@@ -1,4 +1,4 @@
 export class responseDto {
   status: number;
-  message: string;
+  message: any;
 }
