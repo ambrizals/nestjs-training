@@ -17,8 +17,6 @@ export class UsersService {
     private validationService: ValidationService,
   ) {}
 
-  // Query Validation
-
   // Main Query
 
   findAll(): Promise<UsersEntity[]> {
@@ -36,7 +34,7 @@ export class UsersService {
       await this.userRepository.save(user);
 
       return {
-        status: HttpStatus.OK,
+        statusCode: HttpStatus.OK,
         message: 'Data is created !',
       };
     } catch (error) {
@@ -50,13 +48,18 @@ export class UsersService {
     }
   }
 
-  async updateData(userData: ModifyUsersDto, id: number): Promise<UsersEntity> {
+  async updateData(userData: ModifyUsersDto, id: number): Promise<responseDto> {
     try {
       await this.validationService.duplicate(userData.name, userData.email);
       const user = await this.userRepository.findOne(id);
       user.name = userData.name;
       user.email = userData.email;
-      return await this.userRepository.save(user);
+      await this.userRepository.save(user);
+
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Data is updated !',
+      };
     } catch (error) {
       throw new HttpException(
         {
@@ -68,20 +71,29 @@ export class UsersService {
     }
   }
 
-  async changeState(id: number): Promise<UsersEntity> {
+  async changeState(id: number): Promise<responseDto> {
     const user = await this.userRepository.findOne(id);
     user.status = !user.status;
-    return await this.userRepository.save(user);
+    await this.userRepository.save(user);
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'User state has changed !',
+    };
   }
 
   async updatePassword(
     userData: modifyPasswordDto,
     id: number,
-  ): Promise<UsersEntity> {
+  ): Promise<responseDto> {
     const user = await this.userRepository.findOne(id);
     if (userData.newPassword == userData.confirmPassword) {
       user.password = await bcrypt.hash(userData.confirmPassword, 10);
-      return await this.userRepository.save(user);
+      await this.userRepository.save(user);
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'User password has changed !',
+      };
     } else {
       throw new HttpException(
         {

@@ -1,10 +1,8 @@
 import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
-// import { responseDto } from 'src/dto/responseDto';
 import { ValidationService } from '../auth/validation/validation.service';
 import { createAuthDto } from './dto/createAuthDto';
 import { JwtService } from '@nestjs/jwt';
 import { responseDto } from 'src/dto/responseDto';
-// import { responseDto } from 'src/dto/responseDto';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +18,7 @@ export class AuthService {
         loginValue.password,
       );
       return {
-        status: 200,
+        statusCode: 200,
         message: {
           access_token: this.jwtService.sign(payload),
           info: 'Login is successfull !',
