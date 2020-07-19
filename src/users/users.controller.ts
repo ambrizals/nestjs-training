@@ -8,14 +8,14 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UsersEntity } from './users.entity';
+import { UsersEntity } from '../entities/users';
 import { CreateUsersDto } from './dto/createUsers';
 import { ModifyUsersDto } from './dto/modifyUsers';
 import { modifyPasswordDto } from './dto/modifyPassword';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { responseDto } from 'src/dto/responseDto';
 
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(private userService: UsersService) {}
