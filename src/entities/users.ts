@@ -25,15 +25,11 @@ export class UsersEntity {
   @Column({ type: 'boolean' })
   status: boolean;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP()' })
-  created_at: Timestamp;
+  @Column({ type: 'datetime' })
+  created_date: Date;
 
-  @Column({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP()',
-    onUpdate: 'CURRENT_TIMESTAMP()',
-  })
-  updated_at: Timestamp;
+  @Column({ type: 'datetime' })
+  updated_date: Date;
 
   @BeforeInsert()
   async insertPassword(): Promise<any> {

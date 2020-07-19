@@ -3,10 +3,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
+import { databaseConfig } from './config/database';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({}),
+    TypeOrmModule.forRootAsync({
+      useClass: databaseConfig,
+    }),
     ConfigModule.forRoot({ isGlobal: true }),
     UsersModule,
   ],
