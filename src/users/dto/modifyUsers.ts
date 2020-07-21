@@ -2,8 +2,8 @@ import { MinLength, IsEmail } from 'class-validator';
 
 export class ModifyUsersDto {
   @MinLength(3)
-  name: string;
+  fullname: string;
 
   @IsEmail()
-  email: string;
+  mail: string;
 }

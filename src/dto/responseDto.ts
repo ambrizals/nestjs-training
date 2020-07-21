@@ -1,4 +1,5 @@
 export class responseDto {
   statusCode: number;
-  message: any;
+  message?: string;
+  response?: { info: string; payload: any };
 }

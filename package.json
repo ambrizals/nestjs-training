@@ -35,6 +35,8 @@
     "class-validator": "^0.12.2",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
+    "moment": "^2.27.0",
+    "moment-timezone": "^0.5.31",
     "mysql": "^2.18.1",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",

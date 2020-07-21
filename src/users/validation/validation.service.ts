@@ -20,9 +20,14 @@ export class ValidationService {
         error.push({
           field: 'fullname',
           message: 'Username is already taken !',
+          value: fullname,
         });
       if (mail == user.email)
-        error.push({ field: 'email', message: 'Email is already taken !' });
+        error.push({
+          field: 'email',
+          message: 'Email is already taken !',
+          value: mail,
+        });
       return Promise.reject(error);
     }
     return Promise.resolve('true');

@@ -6,6 +6,7 @@ import {
   Put,
   Param,
   UseGuards,
+  Delete,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersEntity } from '../entities/users';
@@ -15,7 +16,7 @@ import { modifyPasswordDto } from './dto/modifyPassword';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { responseDto } from 'src/dto/responseDto';
 
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(private userService: UsersService) {}
@@ -35,19 +36,24 @@ export class UsersController {
     @Body() user: ModifyUsersDto,
     @Param('id') params,
   ): Promise<responseDto> {
-    return this.userService.updateData(user, params.id);
+    return this.userService.updateData(user, params);
   }
 
   @Put(':id/password')
   password(
     @Body() user: modifyPasswordDto,
-    @Param() params,
+    @Param('id') params,
   ): Promise<responseDto> {
-    return this.userService.updatePassword(user, params.id);
+    return this.userService.updatePassword(user, params);
   }
 
   @Put(':id/status')
-  changeStatus(id): Promise<responseDto> {
+  changeStatus(@Param('id') id): Promise<responseDto> {
     return this.userService.changeState(id);
+  }
+
+  @Delete(':id')
+  deleteUsers(@Param('id') id): Promise<responseDto> {
+    return this.userService.deleteUsers(id);
   }
 }

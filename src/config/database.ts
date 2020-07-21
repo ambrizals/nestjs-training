@@ -10,8 +10,12 @@ export class databaseConfig implements TypeOrmOptionsFactory {
     switch (process.env.NODE_ENV) {
       case 'testing':
         return {
-          type: 'sqlite',
-          database: 'data/nestjs.sqlite',
+          type: 'mysql',
+          host: 'localhost',
+          port: 3306,
+          username: process.env.DB_USER,
+          database: process.env.DB_NAME_TESTING,
+          password: process.env.DB_PASSWORD,
           entities: ['dist/entities/*{.ts,.js}'],
           synchronize: true,
         };
@@ -21,9 +25,9 @@ export class databaseConfig implements TypeOrmOptionsFactory {
           type: 'mysql',
           host: 'localhost',
           port: 3306,
-          username: 'root',
-          database: 'sitemanager_v5',
-          password: 'Sabunkuada5',
+          username: process.env.DB_USER,
+          database: process.env.DB_NAME,
+          password: process.env.DB_PASSWORD,
           entities: ['dist/entities/*{.ts,.js}'],
           synchronize: true,
         };

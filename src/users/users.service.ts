@@ -31,11 +31,14 @@ export class UsersService {
       user.email = userData.email;
       user.password = userData.password;
       user.status = true;
-      await this.userRepository.save(user);
+      const data = await this.userRepository.save(user);
 
       return {
         statusCode: HttpStatus.OK,
-        message: 'Data is created !',
+        response: {
+          info: 'User is created',
+          payload: data,
+        },
       };
     } catch (error) {
       throw new HttpException(
@@ -50,12 +53,12 @@ export class UsersService {
 
   async updateData(userData: ModifyUsersDto, id: number): Promise<responseDto> {
     try {
-      await this.validationService.duplicate(userData.name, userData.email);
+      await this.validationService.duplicate(userData.fullname, userData.mail);
       const user = await this.userRepository.findOne(id);
-      user.name = userData.name;
-      user.email = userData.email;
-      await this.userRepository.save(user);
 
+      user.name = userData.fullname;
+      user.email = userData.mail;
+      await this.userRepository.save(user);
       return {
         statusCode: HttpStatus.OK,
         message: 'Data is updated !',
@@ -101,6 +104,25 @@ export class UsersService {
           error: 'Password and Confirmation Password is not same !',
         },
         HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  async deleteUsers(id: number): Promise<responseDto> {
+    try {
+      const user = await this.userRepository.findOne(id);
+      await this.userRepository.remove(user);
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'User has deleted !',
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: 'Internal Server Error',
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }
