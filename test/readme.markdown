@@ -3,7 +3,8 @@ Before starting some E2E testing, you need to know nestjs is not have access typ
 
 1. Make sure all depedencies on packages.json is already installed or stored on node_modules directories.
 2. Before run testing run 'npm run start:testing' or 'yarn start:testing' to serve the application on testing environment, on default this repository not automatically compile nestjs or running nestjs server when you execute test:e2e script.
-3. Now you can execute 'npm run test:e2e' or 'yarn test:e2e'
+3. Import SQL Query on database directory to creating user.
+4. Now you can execute 'npm run test:e2e' or 'yarn test:e2e'
 
 By default nestjs have E2E testing with jest and supertest, but in this repository i used jest and puppeteer to E2E testing based on browser testing.
 
