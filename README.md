@@ -1,75 +1,39 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# Nest JS Training
+![GitHub last commit](https://img.shields.io/github/last-commit/ambrizals/nestjs-training)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/ambrizals/nestjs-training)
 
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
-  
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://gitter.im/nestjs/nestjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge"><img src="https://badges.gitter.im/nestjs/nestjs.svg" alt="Gitter" /></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This repository is used to learn how to use Nestjs to build microservices for providing API Endpoint, you can use this repository to for templates but some built in packages from nestjs is not used because some reason.
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
+# Installation
 ```
+yarn
 
-## Running the app
+## or
 
-```bash
-# development
+npm run install
+
+```
+# Running Application
+```
+# Development mode
 $ npm run start
 
-# watch mode
+# Watch Mode
 $ npm run start:dev
 
-# production mode
+# Production Mode
 $ npm run start:prod
 ```
 
-## Test
+# E2E Testing
+Before starting some E2E testing, you need to know nestjs is not have access typeorm depedencies to creating mock or faker to input or process data. Sometime we need to test API endpoint to check is your code finish to process or fail to process, this is a step to start E2E testing on this repository :
 
-```bash
-# unit tests
-$ npm run test
+1. Make sure all depedencies on packages.json is already installed or stored on node_modules directories.
+2. Before run testing run 'npm run start:testing' or 'yarn start:testing' to serve the application on testing environment, on default this repository not automatically compile nestjs or running nestjs server when you execute test:e2e script.
+3. Import SQL Query on database directory to creating user.
+4. Now you can execute 'npm run test:e2e' or 'yarn test:e2e'
 
-# e2e tests
-$ npm run test:e2e
+By default nestjs have E2E testing with jest and supertest, but in this repository i used jest and puppeteer to E2E testing based on browser testing.
 
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-  Nest is [MIT licensed](LICENSE).
+# NestJS
+More information about nestjs please see [Nest JS Readme](https://github.com/ambrizals/nestjs-training/blob/master/NEST_README.md)
