@@ -1,18 +1,18 @@
 import * as puppeteer from 'puppeteer';
-import { testConfig } from './config';
-import { LoginAuth } from './auth/login';
+import { testConfig } from '../config';
+// import { LoginAuth } from '../auth/login';
 import { HttpStatus } from '@nestjs/common';
-import { usersSchema } from './schema/module-users';
+import { usersSchema } from '../schema/module-users';
+import { jestStore } from '../config/writeFile';
 
-describe('User module test', () => {
+export const users = () => {
   let browser;
   let token: string;
   let currentPayload: any;
 
   beforeAll(async () => {
-    const login = new LoginAuth();
-    token = await login.postLogin();
     browser = await puppeteer.launch();
+    token = jestStore().readData(0, 'token');
   });
 
   it('Unauthorized Access Test', async () => {
@@ -137,4 +137,4 @@ describe('User module test', () => {
   afterAll(async () => {
     await browser.close();
   });
-});
+};

@@ -1,8 +1,8 @@
-import { jestStore } from './writeFile';
+import { jestStore } from '../config/writeFile';
 
-describe('End Test', () => {
+export const end = () => {
   it('Ending Test', async () => {
     const deleteData: boolean = jestStore().destroyFile();
     expect(deleteData).toEqual(true);
   });
-});
+};
