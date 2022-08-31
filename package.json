@@ -37,7 +37,7 @@
     "dotenv": "^8.2.0",
     "fs": "^0.0.1-security",
     "moment": "^2.27.0",
-    "moment-timezone": "^0.5.31",
+    "moment-timezone": "^0.5.35",
     "mysql": "^2.18.1",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
